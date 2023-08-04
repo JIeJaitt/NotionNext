@@ -1,6 +1,5 @@
 import BLOG from '@/blog.config'
 import CONFIG from './config'
-import CommonHead from '@/components/CommonHead'
 import React, { useEffect, useState } from 'react'
 import Nav from './components/Nav'
 import { Footer } from './components/Footer'
@@ -24,6 +23,7 @@ import BlogListBar from './components/BlogListBar'
 import { Transition } from '@headlessui/react'
 import { Style } from './style'
 import replaceSearchResult from '@/components/Mark'
+import CommonHead from '@/components/CommonHead'
 
 /**
  * 基础布局 采用左右两侧布局，移动端使用顶部导航栏
@@ -32,7 +32,7 @@ import replaceSearchResult from '@/components/Mark'
  * @constructor
  */
 const LayoutBase = props => {
-  const { children, meta, post, topSlot } = props
+  const { children, post, topSlot, meta } = props
 
   const fullWidth = post?.fullWidth ?? false
   const { onLoading } = useGlobal()
@@ -40,7 +40,8 @@ const LayoutBase = props => {
   return (
         <div id='theme-nobelium' className='nobelium relative dark:text-gray-300  w-full  bg-white dark:bg-black min-h-screen'>
             {/* SEO相关 */}
-            <CommonHead meta={meta} />
+            <CommonHead meta={meta}/>
+            {/* SEO相关 */}
             <Style/>
 
             {/* 顶部导航栏 */}
@@ -54,7 +55,7 @@ const LayoutBase = props => {
                     appear={true}
                     enter="transition ease-in-out duration-700 transform order-first"
                     enterFrom="opacity-0 translate-y-16"
-                    enterTo="opacity-100 translate-y-0"
+                    enterTo="opacity-100"
                     leave="transition ease-in-out duration-300 transform"
                     leaveFrom="opacity-100 translate-y-0"
                     leaveTo="opacity-0 -translate-y-16"
@@ -133,7 +134,7 @@ const LayoutPostList = props => {
 const LayoutSearch = props => {
   const { keyword } = props
   useEffect(() => {
-    if (isBrowser()) {
+    if (isBrowser) {
       replaceSearchResult({
         doms: document.getElementById('posts-wrapper'),
         search: keyword,
