@@ -7,9 +7,13 @@
     content: "\f05a";
 }
 
+/* 移动端不启用该效果 */
+@media (min-width: 768px) {
 
-/* 博客两边留出空白 */
-#wrapper {
-  width: 80%;
-  margin: 0 auto;
+  /* 博客两边留出空白 */
+  #wrapper {
+    width: 80%;
+    margin: 0 auto; 
+  }
+
 }
