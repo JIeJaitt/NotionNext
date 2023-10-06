@@ -6,3 +6,10 @@
 .fa-info:before {
     content: "\f05a";
 }
+
+
+/* 博客两边留出空白 */
+#wrapper {
+  width: 80%;
+  margin: 0 auto;
+}
