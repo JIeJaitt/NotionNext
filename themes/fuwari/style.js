@@ -1,4 +1,6 @@
 /* eslint-disable react/no-unknown-property */
+import CONFIG from './config'
+import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 
 const Style = () => {
   return <style jsx global>{`
@@ -11,7 +13,7 @@ const Style = () => {
       --fuwari-primary: #b8a320;
       --fuwari-primary-soft: rgba(184, 163, 32, 0.14);
       --fuwari-border: #e9e8df;
-      --fuwari-gradient: linear-gradient(135deg, #b8a320 0%, #e0ce63 100%);
+      --fuwari-gradient: linear-gradient(135deg, var(--fuwari-primary) 0%, color-mix(in oklab, var(--fuwari-primary) 70%, #ffffff) 100%);
     }
 
     .dark #theme-fuwari {
@@ -23,7 +25,7 @@ const Style = () => {
       --fuwari-primary: #d3bf53;
       --fuwari-primary-soft: rgba(211, 191, 83, 0.2);
       --fuwari-border: #283446;
-      --fuwari-gradient: linear-gradient(135deg, #8576ff 0%, #4ba9ff 100%);
+      --fuwari-gradient: linear-gradient(135deg, var(--fuwari-primary) 0%, color-mix(in oklab, var(--fuwari-primary) 70%, #ffffff) 100%);
     }
 
     #theme-fuwari.fuwari-bg {
@@ -243,13 +245,18 @@ const Style = () => {
       inset: 0;
       background-size: cover;
       background-position: center;
-      transform: scale(1.03);
+      transform: scale(1.01);
       filter: saturate(1.05);
     }
     #theme-fuwari .fuwari-hero-mask {
       position: absolute;
       inset: 0;
-      background: linear-gradient(120deg, rgba(15, 23, 42, 0.66), rgba(15, 23, 42, 0.3));
+      background: linear-gradient(
+        120deg,
+        rgba(15, 23, 42, 0.32) 0%,
+        rgba(15, 23, 42, 0.14) 55%,
+        rgba(15, 23, 42, 0.04) 100%
+      );
       z-index: 1;
     }
     #theme-fuwari .fuwari-hero-btn {
@@ -332,6 +339,23 @@ const Style = () => {
       font-size: .76rem;
       color: #8c9097;
       min-height: 1.5rem;
+    }
+    @media (max-width: 1023px) {
+      #theme-fuwari .fuwari-meta-row {
+        flex-wrap: wrap;
+        white-space: normal;
+        overflow: visible;
+      }
+      #theme-fuwari .fuwari-meta-tags {
+        flex-wrap: wrap;
+        white-space: normal;
+        max-width: 100%;
+      }
+      #theme-fuwari .fuwari-post-title,
+      #theme-fuwari .fuwari-post-title a {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
     }
     #theme-fuwari .fuwari-meta-item {
       display: inline-flex;
@@ -544,8 +568,16 @@ const Style = () => {
       background: color-mix(in oklab, var(--fuwari-primary) 10%, var(--fuwari-surface));
       transform: translateX(1px);
     }
+    #theme-fuwari #posts-wrapper {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+    }
     #theme-fuwari #posts-wrapper article {
       border-radius: 1.15rem;
+      max-width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
     }
     #theme-fuwari aside > section.fuwari-card {
       border-radius: 1.05rem;
@@ -564,10 +596,17 @@ const Style = () => {
     #theme-fuwari #posts-wrapper > article {
       animation: fuwari-enter .28s ease both;
     }
+    /* Readmore 的 modal 使用 fixed 定位；文章主卡若保留 transform/animation 会把它困在卡片内 */
+    #theme-fuwari article.fuwari-card {
+      animation: none !important;
+      transform: none !important;
+    }
     @keyframes fuwari-enter {
       from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+      to { opacity: 1; transform: none; }
     }
+
+      ${themeConsoleStyle('fuwari', CONFIG)}
   `}</style>
 }
 

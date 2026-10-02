@@ -1,10 +1,16 @@
 import { siteConfig } from '@/lib/config'
+import { handleEmailClick } from '@/lib/plugins/mailEncrypt'
+import { useRef } from 'react'
 
 const SocialButton = () => {
+  const emailIcon = useRef(null)
   const enableRSS = siteConfig('ENABLE_RSS')
   const links = [
     { key: 'CONTACT_TWITTER', icon: 'fab fa-twitter', label: 'Twitter' },
     { key: 'CONTACT_GITHUB', icon: 'fab fa-github', label: 'GitHub' },
+    { key: 'CONTACT_ORCID', icon: 'fab fa-orcid', label: 'ORCID' },
+    { key: 'CONTACT_CSDN', icon: 'fab fa-csdn', label: 'CSDN' },
+    { key: 'CONTACT_JUEJIN', icon: 'fab fa-juejin', label: '稀土掘金' },
     { key: 'CONTACT_TELEGRAM', icon: 'fab fa-telegram', label: 'Telegram' },
     { key: 'CONTACT_LINKEDIN', icon: 'fab fa-linkedin', label: 'LinkedIn' },
     { key: 'CONTACT_WEIBO', icon: 'fab fa-weibo', label: 'Weibo' },
@@ -35,14 +41,20 @@ const SocialButton = () => {
   return (
     <div className='flex items-center justify-center gap-2 flex-wrap'>
       {finalLinks.map(item => {
-        const href = item.isMail ? `mailto:${item.href}` : item.href
+        const href = item.isMail ? undefined : item.href
         return (
           <a
             key={item.key}
             href={href}
+            onClick={
+              item.isMail
+                ? e => handleEmailClick(e, emailIcon, item.href)
+                : undefined
+            }
             target={item.isMail ? undefined : '_blank'}
             rel={item.isMail ? undefined : 'noopener noreferrer'}
             aria-label={item.label}
+            ref={item.isMail ? emailIcon : undefined}
             className='fuwari-social-btn'>
             <i className={item.icon} />
           </a>
@@ -53,4 +65,3 @@ const SocialButton = () => {
 }
 
 export default SocialButton
-
